@@ -337,6 +337,57 @@
     });
   }
 
+  function setupFeedbackDialog() {
+    const dialog = document.getElementById('feedback-dialog');
+    const dialogImage = document.getElementById('feedback-dialog-image');
+    const closeButton = document.getElementById('feedback-dialog-close');
+    const feedbackButtons = [
+      document.getElementById('feedback-1-button'),
+      document.getElementById('feedback-2-button'),
+    ];
+
+    if (
+      !dialog ||
+      !dialogImage ||
+      !closeButton ||
+      feedbackButtons.some((button) => !button)
+    ) {
+      return;
+    }
+
+    feedbackButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        dialogImage.setAttribute('src', button.getAttribute('data-feedback-src'));
+        dialogImage.setAttribute('alt', button.getAttribute('data-feedback-alt'));
+
+        if (typeof dialog.showModal === 'function') {
+          dialog.showModal();
+        } else {
+          dialog.setAttribute('open', '');
+        }
+      });
+    });
+
+    closeButton.addEventListener('click', () => {
+      if (typeof dialog.close === 'function') {
+        dialog.close();
+      } else {
+        dialog.removeAttribute('open');
+      }
+    });
+
+    dialog.addEventListener('click', (event) => {
+      if (event.target !== dialog) return;
+
+      if (typeof dialog.close === 'function') {
+        dialog.close();
+      } else {
+        dialog.removeAttribute('open');
+      }
+    });
+  }
+
   renderWheel();
   setupSelection();
+  setupFeedbackDialog();
 })(window, document);

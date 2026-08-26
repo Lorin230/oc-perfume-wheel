@@ -17,6 +17,7 @@ class FakeElement {
     this.style = {};
     this.disabled = false;
     this.animations = [];
+    this.open = false;
   }
 
   setAttribute(name, value) {
@@ -74,6 +75,14 @@ class FakeElement {
     return animation;
   }
 
+  showModal() {
+    this.open = true;
+  }
+
+  close() {
+    this.open = false;
+  }
+
   querySelectorAll(selector) {
     const [tagName, className] = selector.split('.');
     const matches = [];
@@ -100,6 +109,21 @@ function buildHarness(randomValues = [], { reducedMotion = false } = {}) {
   const topResult = new FakeElement('dd', 'top-result');
   const middleResult = new FakeElement('dd', 'middle-result');
   const baseResult = new FakeElement('dd', 'base-result');
+  const feedbackOneButton = new FakeElement('button', 'feedback-1-button');
+  feedbackOneButton.setAttribute(
+    'data-feedback-src',
+    'assets/feedback-group-1.webp',
+  );
+  feedbackOneButton.setAttribute('data-feedback-alt', 'OC调香师产品体验群1二维码');
+  const feedbackTwoButton = new FakeElement('button', 'feedback-2-button');
+  feedbackTwoButton.setAttribute(
+    'data-feedback-src',
+    'assets/feedback-group-2.webp',
+  );
+  feedbackTwoButton.setAttribute('data-feedback-alt', 'OC调香师产品体验群2二维码');
+  const feedbackDialog = new FakeElement('dialog', 'feedback-dialog');
+  const feedbackDialogImage = new FakeElement('img', 'feedback-dialog-image');
+  const feedbackDialogClose = new FakeElement('button', 'feedback-dialog-close');
   topResult.textContent = '——';
   middleResult.textContent = '——';
   baseResult.textContent = '——';
@@ -112,6 +136,11 @@ function buildHarness(randomValues = [], { reducedMotion = false } = {}) {
     ['top-result', topResult],
     ['middle-result', middleResult],
     ['base-result', baseResult],
+    ['feedback-1-button', feedbackOneButton],
+    ['feedback-2-button', feedbackTwoButton],
+    ['feedback-dialog', feedbackDialog],
+    ['feedback-dialog-image', feedbackDialogImage],
+    ['feedback-dialog-close', feedbackDialogClose],
   ]);
   const logs = [];
   const errors = [];
@@ -470,4 +499,65 @@ test('减少动态效果时直接停靠并立即揭晓结果', async () => {
   assert.equal(harness.elements.get('middle-result').textContent, notes.middleNotes[0].name);
   assert.equal(harness.elements.get('base-result').textContent, notes.baseNotes[0].name);
   assert.equal(startButton.disabled, false);
+});
+
+test('页面底部提供作者入口、两个用户反馈二维码和关联项目链接', async () => {
+  const html = fs.readFileSync(path.join(projectRoot, 'index.html'), 'utf8');
+  const expectedLinks = [
+    'https://www.xiaohongshu.com/user/profile/6151d3d2000000000202785e',
+    'https://www.bilibili.com/video/BV1FJNq6XE7u/?spm_id_from=333.1387.upload.video_card.click&amp;vd_source=4571484f37ed879be3f8169716e9d649',
+    'https://oc-neon-six.vercel.app/',
+    'https://oc-gemstone-dossier.vercel.app/',
+  ];
+
+  for (const href of expectedLinks) {
+    assert.ok(html.includes(`href="${href}"`), `missing link: ${href}`);
+  }
+
+  for (const label of [
+    '作者：@逃逸平庸的重力，小红书ID：6368607025',
+    'B站UID：3546791257574032',
+    '用户反馈1',
+    '用户反馈2',
+  ]) {
+    assert.ok(html.includes(label), `missing footer label: ${label}`);
+  }
+
+  assert.match(
+    html,
+    /id="feedback-dialog-image"\s+class="feedback-dialog-image"/,
+    'feedback image must receive the responsive dialog image class',
+  );
+
+  for (const filename of [
+    'assets/feedback-group-1.webp',
+    'assets/feedback-group-2.webp',
+  ]) {
+    const imagePath = path.join(projectRoot, filename);
+    assert.ok(fs.existsSync(imagePath), `${filename} must exist`);
+    assert.ok(
+      fs.statSync(imagePath).size < 250_000,
+      `${filename} should stay below 250 KB for fast loading`,
+    );
+  }
+
+  const harness = buildHarness();
+  runScript(harness.context, 'data.js');
+  runScript(harness.context, 'app.js');
+
+  const dialog = harness.elements.get('feedback-dialog');
+  const dialogImage = harness.elements.get('feedback-dialog-image');
+
+  await harness.elements.get('feedback-1-button').click();
+  assert.equal(dialog.open, true);
+  assert.equal(dialogImage.getAttribute('src'), 'assets/feedback-group-1.webp');
+  assert.equal(dialogImage.getAttribute('alt'), 'OC调香师产品体验群1二维码');
+
+  await harness.elements.get('feedback-dialog-close').click();
+  assert.equal(dialog.open, false);
+
+  await harness.elements.get('feedback-2-button').click();
+  assert.equal(dialog.open, true);
+  assert.equal(dialogImage.getAttribute('src'), 'assets/feedback-group-2.webp');
+  assert.equal(dialogImage.getAttribute('alt'), 'OC调香师产品体验群2二维码');
 });

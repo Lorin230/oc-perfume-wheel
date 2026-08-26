@@ -9,6 +9,18 @@
     >
     <title>OC 调香轮盘</title>
     <link rel="stylesheet" href="styles.css">
+    <link
+      rel="preload"
+      href="assets/feedback-group-1.webp"
+      as="image"
+      type="image/webp"
+    >
+    <link
+      rel="preload"
+      href="assets/feedback-group-2.webp"
+      as="image"
+      type="image/webp"
+    >
     <script src="data.js" defer></script>
     <script src="app.js" defer></script>
   </head>
@@ -82,6 +94,93 @@
           </div>
         </dl>
       </section>
+
+      <footer class="resource-footer">
+        <nav class="resource-actions" aria-label="作者主页与用户反馈">
+          <a
+            class="resource-button"
+            href="https://www.xiaohongshu.com/user/profile/6151d3d2000000000202785e"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            作者：@逃逸平庸的重力，小红书ID：6368607025
+          </a>
+          <a
+            class="resource-button"
+            href="https://www.bilibili.com/video/BV1FJNq6XE7u/?spm_id_from=333.1387.upload.video_card.click&amp;vd_source=4571484f37ed879be3f8169716e9d649"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            B站UID：3546791257574032
+          </a>
+          <button
+            id="feedback-1-button"
+            class="resource-button resource-button--feedback"
+            type="button"
+            data-feedback-src="assets/feedback-group-1.webp"
+            data-feedback-alt="OC调香师产品体验群1二维码"
+          >
+            用户反馈1
+          </button>
+          <button
+            id="feedback-2-button"
+            class="resource-button resource-button--feedback"
+            type="button"
+            data-feedback-src="assets/feedback-group-2.webp"
+            data-feedback-alt="OC调香师产品体验群2二维码"
+          >
+            用户反馈2
+          </button>
+        </nav>
+
+        <p class="project-links">
+          <span>
+            OC调香师：
+            <a
+              href="https://oc-neon-six.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >https://oc-neon-six.vercel.app/</a>
+          </span>
+          <span>
+            OC印象宝石：
+            <a
+              href="https://oc-gemstone-dossier.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >https://oc-gemstone-dossier.vercel.app/</a>
+          </span>
+        </p>
+      </footer>
     </main>
+
+    <dialog
+      id="feedback-dialog"
+      class="feedback-dialog"
+      aria-labelledby="feedback-dialog-title"
+    >
+      <div class="feedback-dialog-panel">
+        <h2 id="feedback-dialog-title" class="visually-hidden">
+          用户反馈入群二维码
+        </h2>
+        <button
+          id="feedback-dialog-close"
+          class="feedback-dialog-close"
+          type="button"
+          aria-label="关闭入群图片"
+        >
+          ×
+        </button>
+        <img
+          id="feedback-dialog-image"
+          class="feedback-dialog-image"
+          src="assets/feedback-group-1.webp"
+          alt="OC调香师产品体验群1二维码"
+          width="720"
+          height="900"
+          decoding="async"
+        >
+      </div>
+    </dialog>
   </body>
 </html>

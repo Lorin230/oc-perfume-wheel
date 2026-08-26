@@ -282,6 +282,105 @@ h1 {
   font-size: 1.15rem;
 }
 
+.resource-footer {
+  width: 100%;
+  margin: clamp(36px, 6vw, 64px) auto 0;
+}
+
+.resource-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1.15fr) auto auto;
+  gap: 16px;
+}
+
+.resource-button {
+  display: flex;
+  min-height: 68px;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 20px;
+  border: 1px solid rgba(87, 115, 108, 0.42);
+  color: var(--ink);
+  background: rgba(250, 246, 238, 0.18);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.resource-button--feedback {
+  border-color: rgba(173, 100, 88, 0.5);
+  color: var(--accent);
+}
+
+.resource-button:focus-visible,
+.project-links a:focus-visible,
+.feedback-dialog-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.project-links {
+  margin: 24px 0 0;
+  color: var(--muted-ink);
+  line-height: 1.85;
+}
+
+.project-links span {
+  display: block;
+}
+
+.project-links a {
+  color: inherit;
+  overflow-wrap: anywhere;
+  text-underline-offset: 0.18em;
+}
+
+.feedback-dialog {
+  width: min(92vw, 760px);
+  max-height: 92vh;
+  padding: 0;
+  overflow: visible;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.feedback-dialog::backdrop {
+  background: rgba(38, 35, 31, 0.64);
+}
+
+.feedback-dialog-panel {
+  position: relative;
+  max-height: 92vh;
+  padding: 18px;
+  overflow: auto;
+}
+
+.feedback-dialog-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: calc(92vh - 36px);
+  object-fit: contain;
+}
+
+.feedback-dialog-close {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  z-index: 1;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(38, 35, 31, 0.24);
+  border-radius: 50%;
+  color: var(--ink);
+  background: rgba(250, 246, 238, 0.92);
+  cursor: pointer;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -368,6 +467,25 @@ h1 {
   .result-item dt,
   .result-item dd {
     margin: 0;
+  }
+
+  .resource-actions {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .resource-button {
+    min-height: 56px;
+    padding: 12px 16px;
+  }
+
+  .feedback-dialog-panel {
+    padding: 10px;
+  }
+
+  .feedback-dialog-close {
+    top: 18px;
+    right: 18px;
   }
 }
 
