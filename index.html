@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+      name="description"
+      content="由前调、中调与后调组成的 OC 调香轮盘。"
+    >
+    <title>OC 调香轮盘</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="data.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="page-header">
+        <p class="eyebrow">OLFACTORY STUDY</p>
+        <h1>OC 调香轮盘</h1>
+      </header>
+
+      <section class="wheel-section" aria-labelledby="wheel-heading">
+        <h2 id="wheel-heading" class="visually-hidden">三层调香轮盘</h2>
+
+        <div class="wheel-shell">
+          <svg
+            class="wheel-svg"
+            viewBox="0 0 720 720"
+            role="img"
+            aria-labelledby="wheel-title wheel-description"
+          >
+            <title id="wheel-title">OC 调香轮盘</title>
+            <desc id="wheel-description">
+              最外圈为一百六十种后调，中圈为一百二十种中调，最内圈为一百种前调。
+            </desc>
+
+            <g id="base-ring" aria-label="后调，160 个扇区"></g>
+            <g id="middle-ring" aria-label="中调，120 个扇区"></g>
+            <g id="top-ring" aria-label="前调，100 个扇区"></g>
+
+            <path
+              class="wheel-pointer"
+              d="M 346 3 Q 360 0 374 3 L 366 21 Q 363 24 363 31 L 362 214 Q 362 228 360 240 Q 358 228 358 214 L 357 31 Q 357 24 354 21 Z"
+              aria-hidden="true"
+            ></path>
+          </svg>
+
+          <button class="start-button" type="button" aria-label="开始">
+            开始
+          </button>
+        </div>
+
+        <div class="ring-key" aria-hidden="true">
+          <span><i class="key-dot key-dot--top"></i>前调 · 100</span>
+          <span><i class="key-dot key-dot--middle"></i>中调 · 120</span>
+          <span><i class="key-dot key-dot--base"></i>后调 · 160</span>
+        </div>
+      </section>
+
+      <section
+        class="result-card"
+        aria-labelledby="result-title"
+        aria-live="polite"
+      >
+        <div class="result-heading">
+          <p class="eyebrow">SCENT RESULT</p>
+          <h2 id="result-title">香气结果</h2>
+        </div>
+
+        <dl class="result-grid">
+          <div class="result-item result-item--top">
+            <dt>前调</dt>
+            <dd id="top-result">——</dd>
+          </div>
+          <div class="result-item result-item--middle">
+            <dt>中调</dt>
+            <dd id="middle-result">——</dd>
+          </div>
+          <div class="result-item result-item--base">
+            <dt>后调</dt>
+            <dd id="base-result">——</dd>
+          </div>
+        </dl>
+      </section>
+    </main>
+  </body>
+</html>
